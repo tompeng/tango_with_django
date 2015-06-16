@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
+
+    <h2>This is the about page</h2>
+    <a href="/rango/">Index</a><br />
+    <img src="{% static "images/rango2.gif" %}" alt="Picture of Rango" />
+    <br />
+    <h3>Number of visits:<br />{{ visits }}<h3/>
+
+{% endblock %}

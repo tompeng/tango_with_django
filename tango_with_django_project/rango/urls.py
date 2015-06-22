@@ -15,6 +15,7 @@ urlpatterns = patterns('',
         url(r'^category/(?P<category_name_slug>[\w\-]+)/$', views.category, name='category'),
         url(r'^category/(?P<category_name_slug>[\w\-]+)/add_page/$', views.add_page, name='add_page'),
         url(r'^restricted/', views.restricted, name='restricted'),
+        url(r'^rango/search', views.search, name='search'),
         url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
         (r'^accounts/', include('registration.backends.simple.urls')),
         )

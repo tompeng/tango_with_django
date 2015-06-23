@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from rango.bing_search import run_query
+from rango.models import Page
 
 # Create your views here.
 def index(request):
@@ -154,5 +156,21 @@ def search(request):
 
     return render(request, 'rango/search.html', {'result_list': result_list})
 
-def track_url():
-    pass
+def track_url(request):
+
+    if request.method == 'GET':
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+
+        try:
+            page_to_go = Page.objects.get(id=int(page_id))
+            page_to_go.views += 1
+            page_to_go.save()
+
+            return redirect(page_to_go.url)
+
+        except ObjectDoesNotExist:
+            pass
+            
+    return HttpResponse("The page is not found.")
+

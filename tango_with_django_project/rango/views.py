@@ -57,8 +57,20 @@ def about(request):
 
 def category(request, category_name_slug):
 
-    # Create a context dictionary which we can pass to the template rendering engine.
     context_dict = {}
+    context_dict['result_list'] = None
+    context_dict['query'] = None
+
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+
+        if query:
+            # Run our Bing function to get the results list!
+            context_dict['result_list'] = run_query(query)
+            context_dict['query'] = query
+
+
+    # Create a context dictionary which we can pass to the template rendering engine.
 
     try:
         # Can we find a category name slug with the given name?
@@ -69,7 +81,7 @@ def category(request, category_name_slug):
 
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
 
         # Adds our results list to the template context under name pages.
         context_dict['pages'] = pages
@@ -157,6 +169,8 @@ def search(request):
     return render(request, 'rango/search.html', {'result_list': result_list})
 
 def track_url(request):
+
+    page_id = None
 
     if request.method == 'GET':
         if 'page_id' in request.GET:

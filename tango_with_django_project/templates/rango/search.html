@@ -1,13 +1,9 @@
-{% extends "rango/base.html" %}
-
 {% load staticfiles %}
 
-{% block title %}Search{% endblock %}
+{% block search_block %}
 
-{% block body_block %}
-
-    <div class="page-header">
-        <h1>Search with Rango</h1>
+    <div class="page-header" style="m">
+        <h1><small>Search with Rango</small></h1>
     </div>
 
     <div class="row">
@@ -15,10 +11,10 @@
         <div class="panel panel-primary">
             <br/>
 
-            <form class="form-inline" id="user_form" method="post" action="{% url 'search' %}">
+             <form class="form-inline" id="user_form" method="post" action="{% url 'category'  category.slug %}">
                 {% csrf_token %}
                 <!-- Display the search form elements here -->
-                <input class="form-control" type="text" size="50" name="query" value="" id="query" style="margin-left:30px;"/>
+                <input class="form-control" type="text" size="50" name="query" value="{% if query %}{{ query }}{% endif %}" id="query" style="margin-left:30px;"/>
                 <input class="btn btn-primary" type="submit" name="submit" value="Search" />
                 <br />
             </form>

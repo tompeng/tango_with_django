@@ -11,7 +11,7 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Category, self).save(self.name)
+        super(Category, self).save()
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.name
